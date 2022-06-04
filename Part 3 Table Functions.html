@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<style>
+.table-sortable th {
+  cursor: pointer;
+}
+
+.table-sortable .th-sort-asc::after {
+  content: "\25b4";
+}
+
+.table-sortable .th-sort-desc::after {
+  content: "\25be";
+}
+
+.table-sortable .th-sort-asc::after,
+.table-sortable .th-sort-desc::after {
+  margin-left: 5px;
+}
+
+.table-sortable .th-sort-asc,
+.table-sortable .th-sort-desc {
+  background: rgba(0, 0, 0, 0.1);
+}
+th, td{
+font-family: 'Source Sans Pro Regular',sans sherif;
+font-size: 14px;
+  padding-top: 14px;
+  padding-bottom: 13px;
+text-align: center;
+color: #666666;
+  }
+thead:hover{
+  background-color: #F0F6FF;
+}
+thead{
+color: #666666;
+font-family: 'Source Sans Pro Bold',sans sherif;
+font-size: 14px;
+background-color: #0063E8;
+}
+
+tr:hover {
+  background-color: #F0F6FF;
+}
+table{
+  border-style: outset;
+  width: 50%;
+  border-color: #F5F5F5;
+}
+
+</style>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <table class="table-sortable">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th style=" padding: 24px;">Category</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Chocolate Chip</td>
+        <td>$2.49</td>
+        <td>Standard</td>
+      </tr>
+      <tr>
+        <td>Sugar</td>
+        <td>$1.79</td>
+        <td>Standard</td>
+      </tr>
+      <tr>
+        <td>Snickerdoodle</td>
+        <td>$2.49</td>
+        <td>Standard</td>
+      </tr>
+      <tr>
+        <td>Oatmeal Raisin</td>
+        <td>$2.99</td>
+        <td>Standard</td>
+      </tr>
+<tr>
+        <td>Peanut Butter</td>
+        <td>$2.99</td>
+        <td>Standard</td>
+      </tr>
+<tr>
+        <td>White Chocolate Macadamia</td>
+        <td>$3.99</td>
+        <td>Premium</td>
+      </tr>
+<tr>
+        <td>Red Velvet</td>
+        <td>$3.49</td>
+        <td>Premium</td>
+      </tr>
+<tr>
+        <td>Black and White</td>
+        <td>$3.49</td>
+        <td>Premium</td>
+      </tr>
+<tr>
+        <td>Triple Chocolate</td>
+        <td>$3.99</td>
+        <td>Premium</td>
+      </tr>
+<tr>
+        <td>White Chocolate Coconut Divine</td>
+        <td>$5.99</td>
+        <td>Signature</td>
+      </tr>
+<tr>
+        <td>Dark Chocolate Pistachio Sea Salt</td>
+        <td>$5.49</td>
+        <td>Signature</td>
+      </tr>
+<tr>
+        <td>Brown Butter Bourbon Spice</td>
+        <td>$5.49</td>
+        <td>Signature</td>
+      </tr>
+<tr>
+        <td>Bacon Chocolate Chip</td>
+        <td>$5.99</td>
+        <td>Signature</td>
+      </tr>
+    </tbody>
+  </table>
+<script>
+function sortTableByColumn(table, column, asc = true) {
+    const dirModifier = asc ? 1 : -1;
+    const tBody = table.tBodies[0];
+    const rows = Array.from(tBody.querySelectorAll("tr"));
+
+
+    const sortedRows = rows.sort((a, b) => {
+        const aColText = a.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+        const bColText = b.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+
+        return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+    });
+
+    
+    while (tBody.firstChild) {
+        tBody.removeChild(tBody.firstChild);
+    }
+
+    
+    tBody.append(...sortedRows);
+
+   
+    table.querySelectorAll("th").forEach(th => th.classList.remove("th-sort-asc", "th-sort-desc"));
+    table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-asc", asc);
+    table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-desc", !asc);
+}
+
+document.querySelectorAll(".table-sortable th").forEach(headerCell => {
+    headerCell.addEventListener("click", () => {
+        const tableElement = headerCell.parentElement.parentElement.parentElement;
+        const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+        const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+
+        sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
+    });
+});
+</script>
+
+
+</body>
